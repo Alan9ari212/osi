@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Emergency Location Information Tool</title>
 
 <link rel="stylesheet"
@@ -15,17 +16,16 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 }
 
 html, body {
+    margin: 0;
     width: 100%;
     min-height: 100%;
-    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #243b55;
 }
 
 body {
     min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #243b55;
-    overflow-x: hidden;
 }
 
 /* HEADER */
@@ -33,12 +33,12 @@ body {
 header {
     background: #21466a;
     color: white;
+    margin: 10px;
     padding: 15px 22px;
-    margin: 10px 12px;
     border-radius: 6px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
@@ -55,19 +55,18 @@ header {
 }
 
 header h2 {
+    font-size: 19px;
     margin: 0;
-    font-size: 20px;
 }
 
 header p {
-    margin: 5px 0 0;
     font-size: 12px;
-    color: #d7e5f4;
+    margin: 5px 0 0;
 }
 
 .header-links {
     display: flex;
-    gap: 25px;
+    gap: 20px;
     font-size: 13px;
 }
 
@@ -75,22 +74,18 @@ header p {
     cursor: pointer;
 }
 
-/* MAIN DASHBOARD */
+/* MAIN LAYOUT */
 
 .main {
     display: grid;
-    grid-template-columns: 260px minmax(300px, 1fr) 350px;
+    grid-template-columns: 255px minmax(300px, 1fr) 350px;
     gap: 10px;
-
-    width: calc(100% - 24px);
+    margin: 10px;
     height: calc(100vh - 155px);
-    min-height: 500px;
-
-    margin: 10px 12px;
-    align-items: stretch;
+    min-height: 520px;
 }
 
-/* LEFT AND RIGHT PANELS */
+/* PANELS */
 
 .left-panel,
 .right-panel {
@@ -98,16 +93,15 @@ header p {
     border: 1px solid #dce5ef;
     border-radius: 7px;
     padding: 16px;
-    min-height: 0;
     overflow-y: auto;
+    min-height: 0;
 }
 
 h4 {
     font-size: 13px;
-    margin-bottom: 12px;
 }
 
-/* LOCATION INPUT */
+/* SEARCH */
 
 input[type="text"] {
     width: 100%;
@@ -115,10 +109,10 @@ input[type="text"] {
     border: 1px solid #cbd8e6;
     border-radius: 5px;
     font-size: 13px;
-    outline: none;
 }
 
 input[type="text"]:focus {
+    outline: none;
     border-color: #1474dc;
 }
 
@@ -152,8 +146,8 @@ input[type="text"]:focus {
     height: 30px;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     color: white;
     font-size: 16px;
 }
@@ -171,25 +165,21 @@ input[type="text"]:focus {
 }
 
 input[type="checkbox"] {
+    accent-color: #0870dc;
     width: 16px;
     height: 16px;
-    accent-color: #0870dc;
-    cursor: pointer;
 }
-
-/* SEARCH BUTTON */
 
 .search-button {
     width: 100%;
     padding: 14px;
     margin-top: 12px;
     background: #0870dc;
-    border: none;
     color: white;
-    font-weight: bold;
+    border: none;
     border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 13px;
 }
 
 .search-button:hover {
@@ -197,14 +187,14 @@ input[type="checkbox"] {
 }
 
 .search-button:disabled {
-    opacity: 0.65;
+    opacity: 0.6;
     cursor: wait;
 }
 
 #status {
-    margin-top: 12px;
     font-size: 11px;
     color: #647b93;
+    margin-top: 12px;
     line-height: 1.5;
 }
 
@@ -213,9 +203,9 @@ input[type="checkbox"] {
 #map {
     width: 100%;
     height: 100%;
-    min-height: 500px;
-    border-radius: 7px;
+    min-height: 520px;
     border: 1px solid #dce5ef;
+    border-radius: 7px;
     background: #e5edf3;
     z-index: 1;
 }
@@ -229,13 +219,12 @@ input[type="checkbox"] {
 }
 
 .results-title h3 {
-    margin: 5px 0;
     font-size: 17px;
 }
 
 .results-subtitle {
-    font-size: 11px;
     color: #71849a;
+    font-size: 11px;
     margin-bottom: 15px;
 }
 
@@ -247,7 +236,6 @@ input[type="checkbox"] {
     border: 1px solid #dce5ef;
     border-radius: 7px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .result-card:hover {
@@ -273,7 +261,6 @@ input[type="checkbox"] {
 
 .card-content h4 {
     margin: 2px 0 7px;
-    font-size: 13px;
 }
 
 .card-content p {
@@ -293,12 +280,12 @@ input[type="checkbox"] {
 /* FOOTER */
 
 .location-bar {
-    margin: 8px 12px;
+    margin: 10px;
     padding: 14px;
     background: #e5f2fc;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
-    border-radius: 5px;
     font-size: 12px;
 }
 
@@ -309,16 +296,12 @@ footer {
     font-size: 11px;
 }
 
-/* SMALLER SCREENS */
+/* RESPONSIVE */
 
 @media(max-width: 1000px) {
     .main {
         grid-template-columns: 230px minmax(250px, 1fr);
         height: auto;
-    }
-
-    .left-panel {
-        min-height: 500px;
     }
 
     #map {
@@ -333,10 +316,6 @@ footer {
 }
 
 @media(max-width: 650px) {
-    header {
-        margin: 8px;
-    }
-
     header h2 {
         font-size: 15px;
     }
@@ -348,8 +327,7 @@ footer {
     .main {
         display: flex;
         flex-direction: column;
-        margin: 8px;
-        width: calc(100% - 16px);
+        height: auto;
     }
 
     .left-panel {
@@ -367,7 +345,6 @@ footer {
     }
 
     .location-bar {
-        margin: 8px;
         flex-direction: column;
         gap: 8px;
     }
@@ -395,7 +372,7 @@ footer {
 
 <div class="main">
 
-    <!-- LEFT PANEL -->
+    <!-- SEARCH PANEL -->
 
     <div class="left-panel">
 
@@ -406,7 +383,7 @@ footer {
             id="location"
             value="Manama"
             placeholder="Enter city or area"
-            onkeydown="if(event.key === 'Enter') searchLocation()"
+            onkeydown="if(event.key==='Enter') searchLocation()"
         >
 
         <p class="example">
@@ -447,7 +424,8 @@ footer {
             <input type="checkbox" id="numbers" checked>
         </div>
 
-        <button class="search-button" id="searchBtn"
+        <button class="search-button"
+                id="searchBtn"
                 onclick="searchLocation()">
             🔍 Search
         </button>
@@ -459,12 +437,12 @@ footer {
     </div>
 
 
-    <!-- MAP PANEL -->
+    <!-- MAP -->
 
     <div id="map"></div>
 
 
-    <!-- RIGHT PANEL -->
+    <!-- RESULTS -->
 
     <div class="right-panel">
 
@@ -490,8 +468,7 @@ footer {
 
 <div class="location-bar">
     <span>
-        📍 Location:
-        <b id="bottomLocation">Manama</b>
+        📍 Location: <b id="bottomLocation">Manama</b>
     </span>
 
     <span>
@@ -506,53 +483,62 @@ footer {
 </footer>
 
 
-<!-- LEAFLET MAP LIBRARY -->
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
 // ======================================
-// 1. CREATE MAP
+// 1. CREATE OPENSTREETMAP
 // ======================================
 
-var map = L.map('map', {
-    zoomControl: true
-}).setView([26.2235, 50.5876], 13);
+var map = L.map('map').setView(
+    [26.2235, 50.5876],
+    13
+);
 
+// FREE OPENSTREETMAP TILES
 
-// ======================================
-// 2. ESRI STREET MAP
-// ======================================
-
-var streetLayer = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+var osmLayer = L.tileLayer(
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
-        attribution: 'Tiles &copy; Esri',
-        maxZoom: 19
+        attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+
+        maxZoom: 19,
+        minZoom: 2
     }
 ).addTo(map);
 
-
-// MAP MARKERS
+// MARKER GROUP
 
 var markers = L.layerGroup().addTo(map);
 
+// MAP TILE ERROR
 
-// MAP ERROR MESSAGE
-
-streetLayer.on('tileerror', function() {
+osmLayer.on('tileerror', function() {
     document.getElementById('status').innerText =
-        'Map tiles failed to load. Check your internet connection.';
+        'Map tiles could not load. Check your internet connection.';
 });
 
+// MAP LOADING STATUS
 
-// FIX MAP SIZE
+var loadedTiles = 0;
+
+osmLayer.on('tileload', function() {
+    loadedTiles++;
+
+    if (loadedTiles === 1) {
+        document.getElementById('status').innerText =
+            'Map successfully connected.';
+    }
+});
+
+// REFRESH MAP SIZE
 
 window.addEventListener('load', function() {
     setTimeout(function() {
         map.invalidateSize();
-    }, 500);
+    }, 700);
 });
 
 window.addEventListener('resize', function() {
@@ -561,38 +547,38 @@ window.addEventListener('resize', function() {
 
 
 // ======================================
-// 3. DISTANCE CALCULATION
+// 2. DISTANCE CALCULATION
 // ======================================
 
 function distance(lat1, lon1, lat2, lon2) {
 
     var R = 6371;
 
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var dLat = (lat2-lat1) * Math.PI/180;
+    var dLon = (lon2-lon1) * Math.PI/180;
 
     var a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) ** 2;
+        Math.sin(dLat/2)**2 +
+        Math.cos(lat1*Math.PI/180) *
+        Math.cos(lat2*Math.PI/180) *
+        Math.sin(dLon/2)**2;
 
     var c = 2 * Math.atan2(
         Math.sqrt(a),
-        Math.sqrt(1 - a)
+        Math.sqrt(1-a)
     );
 
-    return (R * c).toFixed(1);
+    return (R*c).toFixed(1);
 }
 
 
 // ======================================
-// 4. SERVICE INFORMATION
+// 3. SERVICE INFORMATION
 // ======================================
 
 function getServiceInfo(type) {
 
-    if (type === "hospital") {
+    if(type === "hospital") {
         return {
             title: "Hospital",
             icon: "✚",
@@ -600,7 +586,7 @@ function getServiceInfo(type) {
         };
     }
 
-    if (type === "police") {
+    if(type === "police") {
         return {
             title: "Police Station",
             icon: "✦",
@@ -617,29 +603,23 @@ function getServiceInfo(type) {
 
 
 // ======================================
-// 5. ADD RESULT CARD
+// 4. ADD RESULT TO PAGE AND MAP
 // ======================================
 
 function addResult(name, type, address, km, lat, lon) {
 
     var info = getServiceInfo(type);
 
-    // CREATE MAP MARKER
+    // MAP MARKER
 
-    var marker = L.circleMarker([lat, lon], {
-        radius: 9,
-        color: "#ffffff",
-        weight: 2,
-        fillColor: info.color,
-        fillOpacity: 1
-    }).addTo(markers);
+    var marker = L.marker([lat, lon]).addTo(markers);
 
     marker.bindPopup(
         "<b>" + escapeHTML(name) + "</b><br>" +
         info.title
     );
 
-    // CREATE CARD
+    // RESULT CARD
 
     var card = document.createElement("div");
     card.className = "result-card";
@@ -675,7 +655,7 @@ function addResult(name, type, address, km, lat, lon) {
 
     card.append(icon, content);
 
-    // CLICK CARD TO ZOOM ON MAP
+    // CLICK TO ZOOM
 
     card.onclick = function() {
         map.setView([lat, lon], 17);
@@ -687,18 +667,19 @@ function addResult(name, type, address, km, lat, lon) {
 
 
 // ======================================
-// 6. SEARCH LOCATION
+// 5. SEARCH LOCATION
 // ======================================
 
 async function searchLocation() {
 
-    var location = document.getElementById("location").value.trim();
+    var location =
+        document.getElementById("location").value.trim();
 
     var status = document.getElementById("status");
     var results = document.getElementById("results");
     var button = document.getElementById("searchBtn");
 
-    if (!location) {
+    if(!location) {
         alert("Please enter a location!");
         return;
     }
@@ -713,32 +694,30 @@ async function searchLocation() {
 
     try {
 
-        // GEOCODING
+        // FIND LOCATION
 
         var geoResponse = await fetch(
             "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q="
             + encodeURIComponent(location)
         );
 
-        if (!geoResponse.ok) {
+        if(!geoResponse.ok) {
             throw new Error("Location search is unavailable.");
         }
 
         var geoData = await geoResponse.json();
 
-        if (!geoData.length) {
+        if(!geoData.length) {
             throw new Error("Location not found. Try another city.");
         }
 
         var lat = parseFloat(geoData[0].lat);
         var lon = parseFloat(geoData[0].lon);
 
-        var address = geoData[0].display_name;
-
         var countryCode =
             geoData[0].address?.country_code?.toLowerCase() || "";
 
-        // UPDATE MAP WITHOUT OPENING ANOTHER PAGE
+        // UPDATE MAP
 
         map.setView([lat, lon], 14);
         markers.clearLayers();
@@ -755,19 +734,19 @@ async function searchLocation() {
         status.innerText =
             "Location found. Collecting emergency services...";
 
-        // SELECTED SERVICES
+        // SELECT SERVICES
 
         var selected = [];
 
-        if (document.getElementById("hospital").checked) {
+        if(document.getElementById("hospital").checked) {
             selected.push("hospital");
         }
 
-        if (document.getElementById("police").checked) {
+        if(document.getElementById("police").checked) {
             selected.push("police");
         }
 
-        if (document.getElementById("fire").checked) {
+        if(document.getElementById("fire").checked) {
             selected.push("fire_station");
         }
 
@@ -775,9 +754,9 @@ async function searchLocation() {
 
         var count = 0;
 
-        // OVERPASS API
+        // OVERPASS SEARCH
 
-        if (selected.length > 0) {
+        if(selected.length > 0) {
 
             var query = '[out:json][timeout:30];(';
 
@@ -803,9 +782,9 @@ async function searchLocation() {
                 }
             );
 
-            if (!response.ok) {
+            if(!response.ok) {
                 throw new Error(
-                    "Emergency service database is temporarily unavailable."
+                    "Emergency service database is unavailable."
                 );
             }
 
@@ -813,22 +792,16 @@ async function searchLocation() {
 
             var places = data.elements || [];
 
-            // DISPLAY FOUND SERVICES
-
             places.forEach(function(place) {
 
                 var pLat = place.lat ?? place.center?.lat;
                 var pLon = place.lon ?? place.center?.lon;
 
-                if (pLat == null || pLon == null) {
-                    return;
-                }
+                if(pLat == null || pLon == null) return;
 
                 var type = place.tags?.amenity;
 
-                if (!selected.includes(type)) {
-                    return;
-                }
+                if(!selected.includes(type)) return;
 
                 var name =
                     place.tags?.name || "Unnamed " +
@@ -840,8 +813,9 @@ async function searchLocation() {
                     place.tags?.["addr:country"]
                 ].filter(Boolean).join(", ");
 
-                if (!placeAddress) {
-                    placeAddress = "Address not available in public data";
+                if(!placeAddress) {
+                    placeAddress =
+                        "Address not available in public data";
                 }
 
                 var km = distance(lat, lon, pLat, pLon);
@@ -858,14 +832,13 @@ async function searchLocation() {
                 count++;
 
             });
-
         }
 
         // ======================================
-        // 7. EMERGENCY NUMBERS
+        // 6. EMERGENCY NUMBERS
         // ======================================
 
-        if (document.getElementById("numbers").checked) {
+        if(document.getElementById("numbers").checked) {
 
             var emergency = document.createElement("div");
             emergency.className = "result-card";
@@ -882,15 +855,18 @@ async function searchLocation() {
 
             var numberText = document.createElement("p");
 
-            if (countryCode === "bh") {
+            if(countryCode === "bh") {
                 numberText.textContent =
                     "Bahrain: 999 (Police, Ambulance and Fire)";
             } else {
                 numberText.textContent =
-                    "Please verify the official emergency number for this country.";
+                    "Check the official emergency number for this country.";
             }
 
-            emergencyContent.append(numberTitle, numberText);
+            emergencyContent.append(
+                numberTitle,
+                numberText
+            );
 
             emergency.append(
                 emergencyIcon,
@@ -902,13 +878,13 @@ async function searchLocation() {
 
         // NO RESULTS
 
-        if (count === 0 &&
-            !document.getElementById("numbers").checked) {
+        if(count === 0 &&
+           !document.getElementById("numbers").checked) {
 
             results.innerHTML =
                 '<div class="empty">' +
                 'No selected services were found.' +
-                '<br><br>Try another location or service.' +
+                '<br><br>Try another location.' +
                 '</div>';
         }
 
@@ -937,12 +913,11 @@ async function searchLocation() {
         button.innerText = "🔍 Search";
 
     }
-
 }
 
 
 // ======================================
-// 8. SAFE TEXT
+// 7. SAFE TEXT
 // ======================================
 
 function escapeHTML(value) {
@@ -963,15 +938,15 @@ function escapeHTML(value) {
 
 
 // ======================================
-// 9. ABOUT AND HELP
+// 8. ABOUT AND HELP
 // ======================================
 
 function showAbout() {
 
     alert(
         "Emergency Location Information Tool\n\n" +
-        "An OSINT project that collects publicly available " +
-        "emergency service information."
+        "An OSINT project that collects publicly " +
+        "available emergency service information."
     );
 
 }
@@ -983,7 +958,7 @@ function showHelp() {
         "1. Enter a city or area.\n" +
         "2. Select emergency services.\n" +
         "3. Click Search.\n" +
-        "4. View the results and map.\n" +
+        "4. View results on the map.\n" +
         "5. Click a result to zoom into its location."
     );
 
@@ -991,7 +966,7 @@ function showHelp() {
 
 
 // ======================================
-// 10. INITIAL SEARCH
+// 9. START APPLICATION
 // ======================================
 
 window.addEventListener("load", function() {
@@ -999,10 +974,9 @@ window.addEventListener("load", function() {
     setTimeout(function() {
 
         map.invalidateSize();
-
         searchLocation();
 
-    }, 800);
+    }, 1000);
 
 });
 
@@ -1010,5 +984,6 @@ window.addEventListener("load", function() {
 
 </body>
 </html>
+
 
 
