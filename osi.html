@@ -4,41 +4,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Emergency Location Information Tool</title>
-
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
 * {
     box-sizing: border-box;
 }
 
-html, body {
+body {
     margin: 0;
-    width: 100%;
-    min-height: 100%;
     font-family: Arial, sans-serif;
     background: #f1f5f9;
     color: #243b55;
 }
 
-body {
-    min-height: 100vh;
-}
-
-/* HEADER */
-
 header {
     background: #21466a;
     color: white;
     margin: 10px;
-    padding: 15px 22px;
+    padding: 17px 22px;
     border-radius: 6px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
@@ -49,9 +37,9 @@ header {
 
 .logo-icon {
     background: #f44336;
-    border-radius: 50%;
     padding: 12px;
-    font-size: 25px;
+    border-radius: 50%;
+    font-size: 24px;
 }
 
 header h2 {
@@ -61,75 +49,56 @@ header h2 {
 
 header p {
     font-size: 12px;
-    margin: 5px 0 0;
+    margin-bottom: 0;
 }
 
 .header-links {
-    display: flex;
-    gap: 20px;
     font-size: 13px;
-}
-
-.header-links span {
     cursor: pointer;
 }
 
-/* MAIN LAYOUT */
-
 .main {
     display: grid;
-    grid-template-columns: 255px minmax(300px, 1fr) 350px;
+    grid-template-columns: 250px minmax(300px, 1fr) 340px;
     gap: 10px;
     margin: 10px;
     height: calc(100vh - 155px);
-    min-height: 520px;
+    min-height: 550px;
 }
 
-/* PANELS */
-
-.left-panel,
-.right-panel {
+.panel {
     background: white;
     border: 1px solid #dce5ef;
     border-radius: 7px;
-    padding: 16px;
+    padding: 15px;
     overflow-y: auto;
     min-height: 0;
 }
-
-h4 {
-    font-size: 13px;
-}
-
-/* SEARCH */
 
 input[type="text"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #cbd8e6;
     border-radius: 5px;
-    font-size: 13px;
+    outline: none;
 }
 
 input[type="text"]:focus {
-    outline: none;
-    border-color: #1474dc;
+    border-color: #0870dc;
 }
 
 .example {
     font-size: 11px;
     color: #71849a;
-    margin: 8px 0 25px;
+    margin-bottom: 25px;
 }
 
-/* SERVICES */
-
-.service-option {
+.service {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     padding: 11px;
-    border: 1px solid #dfe7ef;
+    border: 1px solid #dce5ef;
     border-radius: 6px;
     margin-bottom: 9px;
     font-size: 12px;
@@ -138,31 +107,23 @@ input[type="text"]:focus {
 .service-name {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
 }
 
-.service-icon {
+.circle {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     color: white;
+    border-radius: 50%;
     font-size: 16px;
 }
 
-.red {
-    background: #ef4038;
-}
-
-.blue {
-    background: #1474dc;
-}
-
-.green {
-    background: #079c80;
-}
+.red { background: #ef4038; }
+.blue { background: #1474dc; }
+.green { background: #079c80; }
 
 input[type="checkbox"] {
     accent-color: #0870dc;
@@ -170,23 +131,23 @@ input[type="checkbox"] {
     height: 16px;
 }
 
-.search-button {
+button {
     width: 100%;
-    padding: 14px;
-    margin-top: 12px;
     background: #0870dc;
     color: white;
+    padding: 13px;
     border: none;
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 12px;
 }
 
-.search-button:hover {
+button:hover {
     background: #075bb5;
 }
 
-.search-button:disabled {
+button:disabled {
     opacity: 0.6;
     cursor: wait;
 }
@@ -198,43 +159,61 @@ input[type="checkbox"] {
     line-height: 1.5;
 }
 
-/* MAP */
+/* GOOGLE MAP */
 
-#map {
+.map-panel {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    background: #e5edf3;
+    border-radius: 7px;
+    border: 1px solid #dce5ef;
+}
+
+#googleMap {
     width: 100%;
     height: 100%;
-    min-height: 520px;
-    border: 1px solid #dce5ef;
-    border-radius: 7px;
-    background: #e5edf3;
-    z-index: 1;
+    min-height: 550px;
+    border: 0;
+    display: block;
+}
+
+.map-link {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    padding: 9px 14px;
+    margin: 0;
+    background: white;
+    color: #1264b0;
+    border: 1px solid #ccd9e5;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 5px;
+    z-index: 2;
 }
 
 /* RESULTS */
 
 .results-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.results-title h3 {
     font-size: 17px;
+    margin: 5px 0;
 }
 
-.results-subtitle {
-    color: #71849a;
+.subtitle {
     font-size: 11px;
+    color: #71849a;
     margin-bottom: 15px;
 }
 
 .result-card {
     display: flex;
-    gap: 12px;
-    padding: 13px;
-    margin-bottom: 10px;
+    gap: 11px;
+    padding: 12px;
     border: 1px solid #dce5ef;
     border-radius: 7px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -244,26 +223,22 @@ input[type="checkbox"] {
 }
 
 .result-icon {
-    width: 35px;
-    height: 35px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: white;
     flex-shrink: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: white;
-    border-radius: 50%;
-    font-size: 17px;
+    align-items: center;
 }
 
-.card-content {
-    min-width: 0;
+.result-card h4 {
+    margin: 2px 0 6px;
+    font-size: 13px;
 }
 
-.card-content h4 {
-    margin: 2px 0 7px;
-}
-
-.card-content p {
+.result-card p {
     font-size: 11px;
     color: #657b91;
     margin: 5px 0;
@@ -272,17 +247,15 @@ input[type="checkbox"] {
 
 .empty {
     text-align: center;
-    color: #71849a;
     padding: 25px 5px;
+    color: #71849a;
     font-size: 12px;
 }
 
-/* FOOTER */
-
 .location-bar {
-    margin: 10px;
-    padding: 14px;
     background: #e5f2fc;
+    padding: 14px;
+    margin: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
@@ -296,22 +269,23 @@ footer {
     font-size: 11px;
 }
 
-/* RESPONSIVE */
-
 @media(max-width: 1000px) {
     .main {
-        grid-template-columns: 230px minmax(250px, 1fr);
+        grid-template-columns: 230px 1fr;
         height: auto;
     }
 
-    #map {
+    .map-panel {
         height: 600px;
+    }
+
+    #googleMap {
+        min-height: 600px;
     }
 
     .right-panel {
         grid-column: 1 / -1;
         min-height: 300px;
-        max-height: 500px;
     }
 }
 
@@ -327,21 +301,14 @@ footer {
     .main {
         display: flex;
         flex-direction: column;
-        height: auto;
     }
 
-    .left-panel {
-        min-height: auto;
-    }
-
-    #map {
+    .map-panel {
         height: 430px;
-        min-height: 430px;
     }
 
-    .right-panel {
-        min-height: 300px;
-        max-height: none;
+    #googleMap {
+        min-height: 430px;
     }
 
     .location-bar {
@@ -365,6 +332,7 @@ footer {
 
     <div class="header-links">
         <span onclick="showAbout()">ⓘ About</span>
+        &nbsp;&nbsp;
         <span onclick="showHelp()">ⓘ Help</span>
     </div>
 </header>
@@ -372,9 +340,9 @@ footer {
 
 <div class="main">
 
-    <!-- SEARCH PANEL -->
+    <!-- LEFT SEARCH PANEL -->
 
-    <div class="left-panel">
+    <div class="panel">
 
         <h4>Enter Location</h4>
 
@@ -392,41 +360,39 @@ footer {
 
         <h4>Emergency Services</h4>
 
-        <div class="service-option">
+        <div class="service">
             <div class="service-name">
-                <div class="service-icon red">✚</div>
+                <div class="circle red">✚</div>
                 Hospitals
             </div>
             <input type="checkbox" id="hospital" checked>
         </div>
 
-        <div class="service-option">
+        <div class="service">
             <div class="service-name">
-                <div class="service-icon blue">✦</div>
+                <div class="circle blue">✦</div>
                 Police Stations
             </div>
             <input type="checkbox" id="police" checked>
         </div>
 
-        <div class="service-option">
+        <div class="service">
             <div class="service-name">
-                <div class="service-icon red">♨</div>
+                <div class="circle red">♨</div>
                 Fire Stations
             </div>
             <input type="checkbox" id="fire" checked>
         </div>
 
-        <div class="service-option">
+        <div class="service">
             <div class="service-name">
-                <div class="service-icon green">☎</div>
+                <div class="circle green">☎</div>
                 Emergency Numbers
             </div>
             <input type="checkbox" id="numbers" checked>
         </div>
 
-        <button class="search-button"
-                id="searchBtn"
-                onclick="searchLocation()">
+        <button id="searchBtn" onclick="searchLocation()">
             🔍 Search
         </button>
 
@@ -437,21 +403,39 @@ footer {
     </div>
 
 
-    <!-- MAP -->
+    <!-- GOOGLE MAP PANEL -->
 
-    <div id="map"></div>
+    <div class="map-panel">
+
+        <iframe
+            id="googleMap"
+            title="Emergency Location Map"
+            src="https://maps.google.com/maps?q=Manama,Bahrain&output=embed"
+            loading="eager"
+            allowfullscreen>
+        </iframe>
+
+        <a
+            id="openMap"
+            class="map-link"
+            href="https://www.google.com/maps/search/Manama+Bahrain"
+            target="_blank"
+            rel="noopener">
+            Open in Google Maps ↗
+        </a>
+
+    </div>
 
 
-    <!-- RESULTS -->
+    <!-- RESULTS PANEL -->
 
-    <div class="right-panel">
+    <div class="panel right-panel">
 
         <div class="results-title">
-            <span>📍</span>
-            <h3>Results – <span id="cityName">Manama</span></h3>
+            📍 Results – <span id="cityName">Manama</span>
         </div>
 
-        <p class="results-subtitle">
+        <p class="subtitle">
             Emergency services near your location
         </p>
 
@@ -483,67 +467,27 @@ footer {
 </footer>
 
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
 
 // ======================================
-// 1. CREATE OPENSTREETMAP
+// 1. CHANGE GOOGLE MAP
 // ======================================
 
-var map = L.map('map').setView(
-    [26.2235, 50.5876],
-    13
-);
+function changeMap(searchText) {
 
-// FREE OPENSTREETMAP TILES
+    var query = encodeURIComponent(searchText);
 
-var osmLayer = L.tileLayer(
-    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+    var mapURL =
+        "https://maps.google.com/maps?q=" +
+        query +
+        "&output=embed";
 
-        maxZoom: 19,
-        minZoom: 2
-    }
-).addTo(map);
+    document.getElementById("googleMap").src = mapURL;
 
-// MARKER GROUP
+    document.getElementById("openMap").href =
+        "https://www.google.com/maps/search/" + query;
 
-var markers = L.layerGroup().addTo(map);
-
-// MAP TILE ERROR
-
-osmLayer.on('tileerror', function() {
-    document.getElementById('status').innerText =
-        'Map tiles could not load. Check your internet connection.';
-});
-
-// MAP LOADING STATUS
-
-var loadedTiles = 0;
-
-osmLayer.on('tileload', function() {
-    loadedTiles++;
-
-    if (loadedTiles === 1) {
-        document.getElementById('status').innerText =
-            'Map successfully connected.';
-    }
-});
-
-// REFRESH MAP SIZE
-
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        map.invalidateSize();
-    }, 700);
-});
-
-window.addEventListener('resize', function() {
-    map.invalidateSize();
-});
+}
 
 
 // ======================================
@@ -576,7 +520,7 @@ function distance(lat1, lon1, lat2, lon2) {
 // 3. SERVICE INFORMATION
 // ======================================
 
-function getServiceInfo(type) {
+function getInfo(type) {
 
     if(type === "hospital") {
         return {
@@ -603,23 +547,12 @@ function getServiceInfo(type) {
 
 
 // ======================================
-// 4. ADD RESULT TO PAGE AND MAP
+// 4. CREATE RESULT CARD
 // ======================================
 
-function addResult(name, type, address, km, lat, lon) {
+function addResult(name, type, address, km) {
 
-    var info = getServiceInfo(type);
-
-    // MAP MARKER
-
-    var marker = L.marker([lat, lon]).addTo(markers);
-
-    marker.bindPopup(
-        "<b>" + escapeHTML(name) + "</b><br>" +
-        info.title
-    );
-
-    // RESULT CARD
+    var info = getInfo(type);
 
     var card = document.createElement("div");
     card.className = "result-card";
@@ -630,15 +563,12 @@ function addResult(name, type, address, km, lat, lon) {
     icon.textContent = info.icon;
 
     var content = document.createElement("div");
-    content.className = "card-content";
 
     var title = document.createElement("h4");
     title.textContent = info.title;
 
     var nameText = document.createElement("p");
-    var boldName = document.createElement("b");
-    boldName.textContent = name;
-    nameText.appendChild(boldName);
+    nameText.textContent = name;
 
     var addressText = document.createElement("p");
     addressText.textContent = "📍 " + address;
@@ -646,20 +576,24 @@ function addResult(name, type, address, km, lat, lon) {
     var distanceText = document.createElement("p");
     distanceText.textContent = "➤ " + km + " km away";
 
+    var mapText = document.createElement("p");
+    mapText.style.color = "#0870dc";
+    mapText.textContent = "View Location →";
+
     content.append(
         title,
         nameText,
         addressText,
-        distanceText
+        distanceText,
+        mapText
     );
 
     card.append(icon, content);
 
-    // CLICK TO ZOOM
+    // UPDATE MAP WHEN CLICKED
 
     card.onclick = function() {
-        map.setView([lat, lon], 17);
-        marker.openPopup();
+        changeMap(name + " " + address);
     };
 
     document.getElementById("results").appendChild(card);
@@ -680,17 +614,16 @@ async function searchLocation() {
     var button = document.getElementById("searchBtn");
 
     if(!location) {
-        alert("Please enter a location!");
+        alert("Please enter a location.");
         return;
     }
 
     button.disabled = true;
-    button.innerText = "Searching...";
+    button.textContent = "Searching...";
 
-    status.innerText = "Finding location...";
-
+    status.textContent = "Finding location...";
     results.innerHTML =
-        '<div class="empty">Searching for emergency services...</div>';
+        '<div class="empty">Searching...</div>';
 
     try {
 
@@ -702,13 +635,13 @@ async function searchLocation() {
         );
 
         if(!geoResponse.ok) {
-            throw new Error("Location search is unavailable.");
+            throw new Error("Location service unavailable.");
         }
 
         var geoData = await geoResponse.json();
 
         if(!geoData.length) {
-            throw new Error("Location not found. Try another city.");
+            throw new Error("Location not found.");
         }
 
         var lat = parseFloat(geoData[0].lat);
@@ -717,24 +650,16 @@ async function searchLocation() {
         var countryCode =
             geoData[0].address?.country_code?.toLowerCase() || "";
 
-        // UPDATE MAP
+        // SHOW LOCATION ON GOOGLE MAP
 
-        map.setView([lat, lon], 14);
-        markers.clearLayers();
-        map.invalidateSize();
+        changeMap(location);
 
-        L.marker([lat, lon])
-            .addTo(markers)
-            .bindPopup("📍 " + escapeHTML(location))
-            .openPopup();
+        document.getElementById("cityName").textContent = location;
+        document.getElementById("bottomLocation").textContent = location;
 
-        document.getElementById("cityName").innerText = location;
-        document.getElementById("bottomLocation").innerText = location;
+        status.textContent = "Location found. Searching services...";
 
-        status.innerText =
-            "Location found. Collecting emergency services...";
-
-        // SELECT SERVICES
+        // SELECTED SERVICES
 
         var selected = [];
 
@@ -754,7 +679,7 @@ async function searchLocation() {
 
         var count = 0;
 
-        // OVERPASS SEARCH
+        // SEARCH OPENSTREETMAP DATABASE
 
         if(selected.length > 0) {
 
@@ -784,15 +709,13 @@ async function searchLocation() {
 
             if(!response.ok) {
                 throw new Error(
-                    "Emergency service database is unavailable."
+                    "Emergency service database unavailable. Try again later."
                 );
             }
 
             var data = await response.json();
 
-            var places = data.elements || [];
-
-            places.forEach(function(place) {
+            data.elements.forEach(function(place) {
 
                 var pLat = place.lat ?? place.center?.lat;
                 var pLon = place.lon ?? place.center?.lon;
@@ -804,34 +727,27 @@ async function searchLocation() {
                 if(!selected.includes(type)) return;
 
                 var name =
-                    place.tags?.name || "Unnamed " +
-                    getServiceInfo(type).title;
+                    place.tags?.name ||
+                    "Unnamed " + getInfo(type).title;
 
-                var placeAddress = [
+                var address = [
                     place.tags?.["addr:street"],
                     place.tags?.["addr:city"],
                     place.tags?.["addr:country"]
                 ].filter(Boolean).join(", ");
 
-                if(!placeAddress) {
-                    placeAddress =
-                        "Address not available in public data";
+                if(!address) {
+                    address = "Address not available";
                 }
 
                 var km = distance(lat, lon, pLat, pLon);
 
-                addResult(
-                    name,
-                    type,
-                    placeAddress,
-                    km,
-                    pLat,
-                    pLon
-                );
+                addResult(name, type, address, km);
 
                 count++;
 
             });
+
         }
 
         // ======================================
@@ -847,62 +763,47 @@ async function searchLocation() {
             emergencyIcon.className = "result-icon green";
             emergencyIcon.textContent = "☎";
 
-            var emergencyContent = document.createElement("div");
-            emergencyContent.className = "card-content";
+            var content = document.createElement("div");
 
-            var numberTitle = document.createElement("h4");
-            numberTitle.textContent = "Emergency Numbers";
+            var title = document.createElement("h4");
+            title.textContent = "Emergency Numbers";
 
-            var numberText = document.createElement("p");
+            var number = document.createElement("p");
 
             if(countryCode === "bh") {
-                numberText.textContent =
+                number.textContent =
                     "Bahrain: 999 (Police, Ambulance and Fire)";
             } else {
-                numberText.textContent =
-                    "Check the official emergency number for this country.";
+                number.textContent =
+                    "Please check the official emergency number for this country.";
             }
 
-            emergencyContent.append(
-                numberTitle,
-                numberText
-            );
+            content.append(title, number);
 
-            emergency.append(
-                emergencyIcon,
-                emergencyContent
-            );
+            emergency.append(emergencyIcon, content);
 
             results.appendChild(emergency);
         }
-
-        // NO RESULTS
 
         if(count === 0 &&
            !document.getElementById("numbers").checked) {
 
             results.innerHTML =
-                '<div class="empty">' +
-                'No selected services were found.' +
-                '<br><br>Try another location.' +
-                '</div>';
+                '<div class="empty">No services found. Try another location.</div>';
         }
 
-        status.innerText =
+        status.textContent =
             count + " emergency service locations found.";
-
-        map.invalidateSize();
 
     }
 
     catch(error) {
 
-        status.innerText = "Error: " + error.message;
+        status.textContent = "Error: " + error.message;
 
         results.innerHTML =
             '<div class="empty">' +
-            escapeHTML(error.message) +
-            '<br><br>Please try again later.' +
+            error.message +
             '</div>';
 
     }
@@ -910,80 +811,51 @@ async function searchLocation() {
     finally {
 
         button.disabled = false;
-        button.innerText = "🔍 Search";
+        button.textContent = "🔍 Search";
 
     }
-}
-
-
-// ======================================
-// 7. SAFE TEXT
-// ======================================
-
-function escapeHTML(value) {
-
-    return String(value).replace(/[&<>"']/g, function(char) {
-
-        return {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        }[char];
-
-    });
 
 }
 
 
 // ======================================
-// 8. ABOUT AND HELP
+// 7. ABOUT AND HELP
 // ======================================
 
 function showAbout() {
-
     alert(
         "Emergency Location Information Tool\n\n" +
-        "An OSINT project that collects publicly " +
-        "available emergency service information."
+        "OSINT Stage 1 Project\n" +
+        "Student: Saud Alansari\n" +
+        "ID: NC25080"
     );
-
 }
 
 function showHelp() {
-
     alert(
-        "How to use the tool:\n\n" +
-        "1. Enter a city or area.\n" +
+        "1. Enter a city.\n" +
         "2. Select emergency services.\n" +
-        "3. Click Search.\n" +
-        "4. View results on the map.\n" +
-        "5. Click a result to zoom into its location."
+        "3. Press Search.\n" +
+        "4. View the map and results.\n" +
+        "5. Click a result to view its location on Google Maps."
     );
-
 }
 
 
 // ======================================
-// 9. START APPLICATION
+// 8. START PROJECT
 // ======================================
 
 window.addEventListener("load", function() {
-
-    setTimeout(function() {
-
-        map.invalidateSize();
-        searchLocation();
-
-    }, 1000);
-
+    changeMap("Manama Bahrain");
+    searchLocation();
 });
 
 </script>
 
 </body>
 </html>
+
 
 
 
