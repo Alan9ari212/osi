@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergency Location Information Tool</title>
+
+<!-- Leaflet Map -->
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fa;
+    color: #233b5b;
+}
+
+header {
+    background: #21466a;
+    color: white;
+    margin: 18px auto 8px;
+    width: 96%;
+    padding: 13px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    background: #ed4038;
+    font-size: 25px;
+    border-radius: 50%;
+    padding: 7px;
+}
+
+header h2 {
+    font-size: 16px;
+    margin: 0 0 4px;
+}
+
+header p {
+    font-size: 10px;
+    margin: 0;
+    color: #d5e4f4;
+}
+
+.header-links {
+    font-size: 11px;
+}
+
+.header-links span {
+    margin-left: 18px;
+    cursor: pointer;
+}
+
+.main {
+    width: 96%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 25% 40% 33%;
+    gap: 1%;
+    height: 290px;
+}
+
+.left-panel,
+.right-panel {
+    background: white;
+    padding: 12px;
+    border: 1px solid #e1e8f0;
+    border-radius: 5px;
+}
+
+h4 {
+    font-size: 12px;
+    margin: 0 0 9px;
+}
+
+.search-box {
+    display: flex;
+    gap: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #d7e0e9;
+    border-radius: 4px;
+    font-size: 11px;
+    outline: none;
+}
+
+.example {
+    font-size: 9px;
+    color: #72849a;
+    margin-top: 7px;
+    margin-bottom: 20px;
+}
+
+.service-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #e4eaf0;
+    padding: 7px;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.service-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.service-icon {
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.red { background: #ef4038; }
+.blue { background: #1474dc; }
+.green { background: #079c80; }
+
+input[type="checkbox"] {
+    width: 13px;
+    accent-color: #1474dc;
+}
+
+.search-button {
+    background: #0870dc;
+    color: white;
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.search-button:hover {
+    background: #075bb5;
+}
+
+#map {
+    width: 100%;
+    height: 290px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.right-panel {
+    overflow-y: auto;
+}
+
+.results-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.results-title h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.results-subtitle {
+    font-size: 9px;
+    color: #71849a;
+    margin: 5px 0 12px;
+}
+
+.result-card {
+    border: 1px solid #e2e8ef;
+    border-radius: 6px;
+    padding: 9px;
+    margin-bottom: 7px;
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    background: white;
+}
+
+.result-card h4 {
+    margin: 1px 0 5px;
+    font-size: 11px;
+}
+
+.result-card p {
+    font-size: 9px;
+    color: #63768d;
+    margin: 3px 0;
+}
+
+.result-icon {
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-content a {
+    font-size: 9px;
+    color: #1474dc;
+    text-decoration: none;
+}
+
+.location-bar {
+    width: 96%;
+    margin: 9px auto 15px;
+    padding: 12px;
+    background: #e6f2fc;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.location-bar small {
+    color: #6385a6;
+}
+
+footer {
+    text-align: center;
+    color: #8191a3;
+    font-size: 10px;
+    padding: 8px;
+}
+
+@media(max-width: 750px) {
+    .main {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    #map {
+        height: 300px;
+    }
+
+    .header-links {
+        display: none;
+    }
+
+    .location-bar {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">📍</div>
+        <div>
+            <h2>Emergency Location Information Tool</h2>
+            <p>Find nearby emergency services quickly and easily</p>
+        </div>
+    </div>
+
+    <div class="header-links">
+        <span onclick="showAbout()">ⓘ About</span>
+        <span onclick="showHelp()">ⓘ Help</span>
+    </div>
+</header>
+
+<div class="main">
+
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+
+        <h4>Enter Location</h4>
+
+        <div class="search-box">
+            <input type="text" id="location"
+                   value="Manama"
+                   placeholder="Enter city or area">
+        </div>
+
+        <p class="example">
+            Example: Manama, Dubai, London, etc.
+        </p>
+
+        <h4>Emergency Services</h4>
+
+        <div class="service-option">
+            <div class="service-name">
+                <div class="service-icon red">✚</div>
+                Hospitals
+            </div>
+            <input type="checkbox" id="hospital" checked>
+        </div>
+
+        <div class="service-option">
+            <div class="service-name">
+                <div class="service-icon blue">✦</div>
+                Police Stations
+            </div>
+            <input type="checkbox" id="police" checked>
+        </div>
+
+        <div class="service-option">
+            <div class="service-name">
+                <div class="service-icon red">♨</div>
+                Fire Stations
+            </div>
+            <input type="checkbox" id="fire" checked>
+        </div>
+
+        <div class="service-option">
+            <div class="service-name">
+                <div class="service-icon green">☎</div>
+                Emergency Numbers
+            </div>
+            <input type="checkbox" id="numbers" checked>
+        </div>
+
+        <button class="search-button" onclick="searchLocation()">
+            🔍 Search
+        </button>
+
+    </div>
+
+    <!-- MIDDLE MAP -->
+    <div id="map"></div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+
+        <div class="results-title">
+            <span>📍</span>
+            <h3>Results – <span id="cityName">Manama</span></h3>
+        </div>
+
+        <p class="results-subtitle">
+            Emergency services near you
+        </p>
+
+        <div id="results">
+
+            <div class="result-card" data-type="hospital">
+                <div class="result-icon red">✚</div>
+                <div class="card-content">
+                    <h4>Hospital</h4>
+                    <p><b>King Hamad University Hospital</b></p>
+                    <p>📍 Road 2750, Manama, Bahrain</p>
+                    <p>➤ 2.3 km away</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=King+Hamad+University+Hospital"
+                       target="_blank">View Location →</a>
+                </div>
+            </div>
+
+            <div class="result-card" data-type="police">
+                <div class="result-icon blue">✦</div>
+                <div class="card-content">
+                    <h4>Police Station</h4>
+                    <p><b>Manama Police Station</b></p>
+                    <p>📍 Al Fateh Hwy, Manama, Bahrain</p>
+                    <p>➤ 1.8 km away</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Manama+Police+Station"
+                       target="_blank">View Location →</a>
+                </div>
+            </div>
+
+            <div class="result-card" data-type="fire">
+                <div class="result-icon red">♨</div>
+                <div class="card-content">
+                    <h4>Fire Station</h4>
+                    <p><b>Manama Fire Station</b></p>
+                    <p>📍 Road 2840, Manama, Bahrain</p>
+                    <p>➤ 3.1 km away</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Manama+Fire+Station"
+                       target="_blank">View Location →</a>
+                </div>
+            </div>
+
+            <div class="result-card" data-type="numbers">
+                <div class="result-icon green">☎</div>
+                <div class="card-content">
+                    <h4>Emergency Numbers</h4>
+                    <p>Police: 999 | Ambulance: 999</p>
+                    <p>Fire: 999</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- BOTTOM LOCATION BAR -->
+<div class="location-bar">
+    <span>📍 Location: <b id="bottomLocation">Manama, Bahrain</b></span>
+    <small>Quick access to essential public services when you need them.</small>
+</div>
+
+<footer>
+    OSINT Stage 1 Project | Student: Saud Alansari | ID: NC25080
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+// Create map
+var map = L.map('map').setView([26.2235, 50.5876], 14);
+
+// OpenStreetMap layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Emergency service locations (example locations)
+var locations = [
+    {
+        name: "King Hamad University Hospital",
+        position: [26.2185, 50.6545],
+        color: "#ed4038"
+    },
+    {
+        name: "Manama Police Station",
+        position: [26.2150, 50.5840],
+        color: "#1474dc"
+    },
+    {
+        name: "Manama Fire Station",
+        position: [26.2100, 50.5900],
+        color: "#ed4038"
+    }
+];
+
+// Add markers
+locations.forEach(function(place) {
+
+    var marker = L.circleMarker(place.position, {
+        radius: 8,
+        color: "white",
+        weight: 2,
+        fillColor: place.color,
+        fillOpacity: 1
+    }).addTo(map);
+
+    marker.bindPopup(place.name);
+});
+
+// Search function
+function searchLocation() {
+
+    var location = document.getElementById("location").value.trim();
+
+    if (location === "") {
+        alert("Please enter a location!");
+        return;
+    }
+
+    document.getElementById("cityName").innerText = location;
+    document.getElementById("bottomLocation").innerText = location;
+
+    // Show or hide service cards
+    var services = [
+        ["hospital", "hospital"],
+        ["police", "police"],
+        ["fire", "fire"],
+        ["numbers", "numbers"]
+    ];
+
+    services.forEach(function(item) {
+        var checkbox = document.getElementById(item[0]);
+        var card = document.querySelector(
+            '[data-type="' + item[1] + '"]'
+        );
+
+        if (card) {
+            card.style.display = checkbox.checked ? "flex" : "none";
+        }
+    });
+
+    // Open Google Maps search for the entered location
+    window.open(
+        "https://www.google.com/maps/search/emergency+services+in+"
+        + encodeURIComponent(location),
+        "_blank"
+    );
+}
+
+// About button
+function showAbout() {
+    alert(
+        "Emergency Location Information Tool\n\n" +
+        "An OSINT project that helps users find public emergency services."
+    );
+}
+
+// Help button
+function showHelp() {
+    alert(
+        "How to use:\n\n" +
+        "1. Enter a city or area.\n" +
+        "2. Select emergency services.\n" +
+        "3. Click Search.\n" +
+        "4. View the results and map."
+    );
+}
+
+</script>
+
+</body>
+</html>
