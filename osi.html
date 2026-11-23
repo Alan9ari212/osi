@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Emergency Location Information Tool</title>
 
 <link rel="stylesheet"
@@ -15,11 +14,18 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    width: 100%;
+    min-height: 100%;
     margin: 0;
+}
+
+body {
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     background: #f1f5f9;
     color: #243b55;
+    overflow-x: hidden;
 }
 
 /* HEADER */
@@ -27,9 +33,9 @@ body {
 header {
     background: #21466a;
     color: white;
-    padding: 16px 25px;
-    margin: 10px 15px;
-    border-radius: 5px;
+    padding: 15px 22px;
+    margin: 10px 12px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -63,40 +69,37 @@ header p {
     display: flex;
     gap: 25px;
     font-size: 13px;
+}
+
+.header-links span {
     cursor: pointer;
 }
 
-/* MAIN LAYOUT */
+/* MAIN DASHBOARD */
 
 .main {
     display: grid;
-    grid-template-columns: 280px minmax(350px, 1fr) 390px;
-    gap: 12px;
-    margin: 10px 15px;
-    min-height: 620px;
+    grid-template-columns: 260px minmax(300px, 1fr) 350px;
+    gap: 10px;
+
+    width: calc(100% - 24px);
+    height: calc(100vh - 155px);
+    min-height: 500px;
+
+    margin: 10px 12px;
+    align-items: stretch;
 }
 
-/* PANELS */
+/* LEFT AND RIGHT PANELS */
 
 .left-panel,
 .right-panel {
     background: white;
     border: 1px solid #dce5ef;
     border-radius: 7px;
-    padding: 18px;
-}
-
-.left-panel {
-    height: 620px;
-}
-
-.right-panel {
-    height: 620px;
+    padding: 16px;
+    min-height: 0;
     overflow-y: auto;
-}
-
-h3 {
-    font-size: 16px;
 }
 
 h4 {
@@ -104,11 +107,11 @@ h4 {
     margin-bottom: 12px;
 }
 
-/* SEARCH */
+/* LOCATION INPUT */
 
 input[type="text"] {
     width: 100%;
-    padding: 13px;
+    padding: 12px;
     border: 1px solid #cbd8e6;
     border-radius: 5px;
     font-size: 13px;
@@ -125,11 +128,13 @@ input[type="text"]:focus {
     margin: 8px 0 25px;
 }
 
+/* SERVICES */
+
 .service-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
+    padding: 11px;
     border: 1px solid #dfe7ef;
     border-radius: 6px;
     margin-bottom: 9px;
@@ -153,9 +158,17 @@ input[type="text"]:focus {
     font-size: 16px;
 }
 
-.red { background: #ef4038; }
-.blue { background: #1474dc; }
-.green { background: #079c80; }
+.red {
+    background: #ef4038;
+}
+
+.blue {
+    background: #1474dc;
+}
+
+.green {
+    background: #079c80;
+}
 
 input[type="checkbox"] {
     width: 16px;
@@ -163,6 +176,8 @@ input[type="checkbox"] {
     accent-color: #0870dc;
     cursor: pointer;
 }
+
+/* SEARCH BUTTON */
 
 .search-button {
     width: 100%;
@@ -181,6 +196,11 @@ input[type="checkbox"] {
     background: #075bb5;
 }
 
+.search-button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
 #status {
     margin-top: 12px;
     font-size: 11px;
@@ -192,9 +212,11 @@ input[type="checkbox"] {
 
 #map {
     width: 100%;
-    height: 620px;
+    height: 100%;
+    min-height: 500px;
     border-radius: 7px;
     border: 1px solid #dce5ef;
+    background: #e5edf3;
     z-index: 1;
 }
 
@@ -245,6 +267,10 @@ input[type="checkbox"] {
     font-size: 17px;
 }
 
+.card-content {
+    min-width: 0;
+}
+
 .card-content h4 {
     margin: 2px 0 7px;
     font-size: 13px;
@@ -254,7 +280,7 @@ input[type="checkbox"] {
     font-size: 11px;
     color: #657b91;
     margin: 5px 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .empty {
@@ -267,8 +293,8 @@ input[type="checkbox"] {
 /* FOOTER */
 
 .location-bar {
-    margin: 10px 15px;
-    padding: 15px;
+    margin: 8px 12px;
+    padding: 14px;
     background: #e5f2fc;
     display: flex;
     justify-content: space-between;
@@ -278,21 +304,30 @@ input[type="checkbox"] {
 
 footer {
     text-align: center;
-    padding: 15px;
+    padding: 8px;
     color: #71849a;
     font-size: 11px;
 }
 
-/* RESPONSIVE */
+/* SMALLER SCREENS */
 
-@media(max-width: 1100px) {
+@media(max-width: 1000px) {
     .main {
-        grid-template-columns: 240px minmax(300px, 1fr);
+        grid-template-columns: 230px minmax(250px, 1fr);
+        height: auto;
+    }
+
+    .left-panel {
+        min-height: 500px;
+    }
+
+    #map {
+        height: 600px;
     }
 
     .right-panel {
         grid-column: 1 / -1;
-        height: auto;
+        min-height: 300px;
         max-height: 500px;
     }
 }
@@ -314,18 +349,20 @@ footer {
         display: flex;
         flex-direction: column;
         margin: 8px;
+        width: calc(100% - 16px);
     }
 
     .left-panel {
-        height: auto;
+        min-height: auto;
     }
 
     #map {
-        height: 400px;
+        height: 430px;
+        min-height: 430px;
     }
 
     .right-panel {
-        height: auto;
+        min-height: 300px;
         max-height: none;
     }
 
@@ -358,7 +395,7 @@ footer {
 
 <div class="main">
 
-    <!-- LEFT SEARCH PANEL -->
+    <!-- LEFT PANEL -->
 
     <div class="left-panel">
 
@@ -427,7 +464,7 @@ footer {
     <div id="map"></div>
 
 
-    <!-- RIGHT RESULTS PANEL -->
+    <!-- RIGHT PANEL -->
 
     <div class="right-panel">
 
@@ -452,8 +489,14 @@ footer {
 
 
 <div class="location-bar">
-    <span>📍 Location: <b id="bottomLocation">Manama, Bahrain</b></span>
-    <span>Quick access to essential public services when you need them.</span>
+    <span>
+        📍 Location:
+        <b id="bottomLocation">Manama</b>
+    </span>
+
+    <span>
+        Quick access to essential public services when you need them.
+    </span>
 </div>
 
 <footer>
@@ -463,30 +506,63 @@ footer {
 </footer>
 
 
+<!-- LEAFLET MAP LIBRARY -->
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
-// CREATE MAP
+// ======================================
+// 1. CREATE MAP
+// ======================================
 
-var map = L.map('map').setView([26.2235, 50.5876], 13);
+var map = L.map('map', {
+    zoomControl: true
+}).setView([26.2235, 50.5876], 13);
 
-// CARTO MAP TILES
-// Different tile provider to avoid the previous blocked server.
 
-L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+// ======================================
+// 2. ESRI STREET MAP
+// ======================================
+
+var streetLayer = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
     {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-        subdomains: 'abcd',
-        maxZoom: 20
+        attribution: 'Tiles &copy; Esri',
+        maxZoom: 19
     }
 ).addTo(map);
+
+
+// MAP MARKERS
 
 var markers = L.layerGroup().addTo(map);
 
 
-// DISTANCE CALCULATION
+// MAP ERROR MESSAGE
+
+streetLayer.on('tileerror', function() {
+    document.getElementById('status').innerText =
+        'Map tiles failed to load. Check your internet connection.';
+});
+
+
+// FIX MAP SIZE
+
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 500);
+});
+
+window.addEventListener('resize', function() {
+    map.invalidateSize();
+});
+
+
+// ======================================
+// 3. DISTANCE CALCULATION
+// ======================================
 
 function distance(lat1, lon1, lat2, lon2) {
 
@@ -496,18 +572,23 @@ function distance(lat1, lon1, lat2, lon2) {
     var dLon = (lon2 - lon1) * Math.PI / 180;
 
     var a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLat / 2) ** 2 +
         Math.cos(lat1 * Math.PI / 180) *
         Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.sin(dLon / 2) ** 2;
 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var c = 2 * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+    );
 
     return (R * c).toFixed(1);
 }
 
 
-// ICON SETTINGS
+// ======================================
+// 4. SERVICE INFORMATION
+// ======================================
 
 function getServiceInfo(type) {
 
@@ -535,7 +616,79 @@ function getServiceInfo(type) {
 }
 
 
-// SEARCH LOCATION AND SERVICES
+// ======================================
+// 5. ADD RESULT CARD
+// ======================================
+
+function addResult(name, type, address, km, lat, lon) {
+
+    var info = getServiceInfo(type);
+
+    // CREATE MAP MARKER
+
+    var marker = L.circleMarker([lat, lon], {
+        radius: 9,
+        color: "#ffffff",
+        weight: 2,
+        fillColor: info.color,
+        fillOpacity: 1
+    }).addTo(markers);
+
+    marker.bindPopup(
+        "<b>" + escapeHTML(name) + "</b><br>" +
+        info.title
+    );
+
+    // CREATE CARD
+
+    var card = document.createElement("div");
+    card.className = "result-card";
+
+    var icon = document.createElement("div");
+    icon.className = "result-icon";
+    icon.style.background = info.color;
+    icon.textContent = info.icon;
+
+    var content = document.createElement("div");
+    content.className = "card-content";
+
+    var title = document.createElement("h4");
+    title.textContent = info.title;
+
+    var nameText = document.createElement("p");
+    var boldName = document.createElement("b");
+    boldName.textContent = name;
+    nameText.appendChild(boldName);
+
+    var addressText = document.createElement("p");
+    addressText.textContent = "📍 " + address;
+
+    var distanceText = document.createElement("p");
+    distanceText.textContent = "➤ " + km + " km away";
+
+    content.append(
+        title,
+        nameText,
+        addressText,
+        distanceText
+    );
+
+    card.append(icon, content);
+
+    // CLICK CARD TO ZOOM ON MAP
+
+    card.onclick = function() {
+        map.setView([lat, lon], 17);
+        marker.openPopup();
+    };
+
+    document.getElementById("results").appendChild(card);
+}
+
+
+// ======================================
+// 6. SEARCH LOCATION
+// ======================================
 
 async function searchLocation() {
 
@@ -554,14 +707,16 @@ async function searchLocation() {
     button.innerText = "Searching...";
 
     status.innerText = "Finding location...";
-    results.innerHTML = '<div class="empty">Searching for emergency services...</div>';
+
+    results.innerHTML =
+        '<div class="empty">Searching for emergency services...</div>';
 
     try {
 
-        // GEOCODING: FIND LOCATION COORDINATES
+        // GEOCODING
 
         var geoResponse = await fetch(
-            "https://nominatim.openstreetmap.org/search?format=json&limit=1&q="
+            "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q="
             + encodeURIComponent(location)
         );
 
@@ -572,7 +727,7 @@ async function searchLocation() {
         var geoData = await geoResponse.json();
 
         if (!geoData.length) {
-            throw new Error("Location not found. Try another city or area.");
+            throw new Error("Location not found. Try another city.");
         }
 
         var lat = parseFloat(geoData[0].lat);
@@ -580,22 +735,27 @@ async function searchLocation() {
 
         var address = geoData[0].display_name;
 
-        // UPDATE MAP WITHOUT LEAVING THE PAGE
+        var countryCode =
+            geoData[0].address?.country_code?.toLowerCase() || "";
+
+        // UPDATE MAP WITHOUT OPENING ANOTHER PAGE
 
         map.setView([lat, lon], 14);
         markers.clearLayers();
+        map.invalidateSize();
 
         L.marker([lat, lon])
             .addTo(markers)
-            .bindPopup("📍 " + location)
+            .bindPopup("📍 " + escapeHTML(location))
             .openPopup();
 
         document.getElementById("cityName").innerText = location;
         document.getElementById("bottomLocation").innerText = location;
 
-        status.innerText = "Location found. Collecting emergency services...";
+        status.innerText =
+            "Location found. Collecting emergency services...";
 
-        // GET SELECTED SERVICES
+        // SELECTED SERVICES
 
         var selected = [];
 
@@ -611,137 +771,99 @@ async function searchLocation() {
             selected.push("fire_station");
         }
 
-        // OVERPASS API QUERY
+        results.innerHTML = "";
 
-        var query = '[out:json][timeout:25];(';
+        var count = 0;
 
-        selected.forEach(function(type) {
-
-            query +=
-                'node["amenity"="' + type + '"](around:10000,' + lat + ',' + lon + ');' +
-                'way["amenity"="' + type + '"](around:10000,' + lat + ',' + lon + ');' +
-                'relation["amenity"="' + type + '"](around:10000,' + lat + ',' + lon + ');';
-
-        });
-
-        query += ');out center tags;';
-
-        var places = [];
+        // OVERPASS API
 
         if (selected.length > 0) {
+
+            var query = '[out:json][timeout:30];(';
+
+            selected.forEach(function(type) {
+
+                query +=
+                    'nwr["amenity"="' + type + '"](around:10000,' +
+                    lat + ',' + lon + ');';
+
+            });
+
+            query += ');out center tags;';
 
             var response = await fetch(
                 "https://overpass-api.de/api/interpreter",
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
+                        "Content-Type":
+                        "application/x-www-form-urlencoded"
                     },
                     body: "data=" + encodeURIComponent(query)
                 }
             );
 
             if (!response.ok) {
-                throw new Error("Emergency-service database is temporarily unavailable.");
+                throw new Error(
+                    "Emergency service database is temporarily unavailable."
+                );
             }
 
             var data = await response.json();
 
-            places = data.elements || [];
+            var places = data.elements || [];
+
+            // DISPLAY FOUND SERVICES
+
+            places.forEach(function(place) {
+
+                var pLat = place.lat ?? place.center?.lat;
+                var pLon = place.lon ?? place.center?.lon;
+
+                if (pLat == null || pLon == null) {
+                    return;
+                }
+
+                var type = place.tags?.amenity;
+
+                if (!selected.includes(type)) {
+                    return;
+                }
+
+                var name =
+                    place.tags?.name || "Unnamed " +
+                    getServiceInfo(type).title;
+
+                var placeAddress = [
+                    place.tags?.["addr:street"],
+                    place.tags?.["addr:city"],
+                    place.tags?.["addr:country"]
+                ].filter(Boolean).join(", ");
+
+                if (!placeAddress) {
+                    placeAddress = "Address not available in public data";
+                }
+
+                var km = distance(lat, lon, pLat, pLon);
+
+                addResult(
+                    name,
+                    type,
+                    placeAddress,
+                    km,
+                    pLat,
+                    pLon
+                );
+
+                count++;
+
+            });
+
         }
 
-        // DISPLAY RESULTS
-
-        results.innerHTML = "";
-
-        var count = 0;
-
-        places.forEach(function(place) {
-
-            var pLat = place.lat ?? place.center?.lat;
-            var pLon = place.lon ?? place.center?.lon;
-
-            if (pLat == null || pLon == null) return;
-
-            var type = place.tags?.amenity;
-
-            if (!selected.includes(type)) return;
-
-            var info = getServiceInfo(type);
-
-            var name = place.tags?.name || info.title + " (Unnamed)";
-
-            var placeAddress = [
-                place.tags?.["addr:street"],
-                place.tags?.["addr:city"],
-                place.tags?.["addr:country"]
-            ].filter(Boolean).join(", ");
-
-            if (!placeAddress) {
-                placeAddress = "Address not available in public data";
-            }
-
-            var km = distance(lat, lon, pLat, pLon);
-
-            // ADD MAP MARKER
-
-            var marker = L.circleMarker([pLat, pLon], {
-                radius: 9,
-                color: "#ffffff",
-                weight: 2,
-                fillColor: info.color,
-                fillOpacity: 1
-            }).addTo(markers);
-
-            marker.bindPopup(
-                "<b>" + escapeHTML(name) + "</b><br>" +
-                escapeHTML(info.title)
-            );
-
-            // CREATE RESULT CARD
-
-            var card = document.createElement("div");
-            card.className = "result-card";
-
-            var icon = document.createElement("div");
-            icon.className = "result-icon";
-            icon.style.background = info.color;
-            icon.textContent = info.icon;
-
-            var content = document.createElement("div");
-            content.className = "card-content";
-
-            var title = document.createElement("h4");
-            title.textContent = info.title;
-
-            var nameText = document.createElement("p");
-            nameText.innerHTML = "<b></b>";
-            nameText.firstElementChild.textContent = name;
-
-            var addressText = document.createElement("p");
-            addressText.textContent = "📍 " + placeAddress;
-
-            var distanceText = document.createElement("p");
-            distanceText.textContent = "➤ " + km + " km away";
-
-            content.append(title, nameText, addressText, distanceText);
-            card.append(icon, content);
-
-            // CLICK CARD TO ZOOM ON MAP
-
-            card.onclick = function() {
-                map.setView([pLat, pLon], 17);
-                marker.openPopup();
-            };
-
-            results.appendChild(card);
-
-            count++;
-
-        });
-
-
-        // EMERGENCY NUMBERS
+        // ======================================
+        // 7. EMERGENCY NUMBERS
+        // ======================================
 
         if (document.getElementById("numbers").checked) {
 
@@ -760,32 +882,40 @@ async function searchLocation() {
 
             var numberText = document.createElement("p");
 
-            if (/bahrain/i.test(address)) {
-                numberText.textContent = "Bahrain: 999 (Police, Ambulance and Fire)";
+            if (countryCode === "bh") {
+                numberText.textContent =
+                    "Bahrain: 999 (Police, Ambulance and Fire)";
             } else {
                 numberText.textContent =
                     "Please verify the official emergency number for this country.";
             }
 
             emergencyContent.append(numberTitle, numberText);
-            emergency.append(emergencyIcon, emergencyContent);
+
+            emergency.append(
+                emergencyIcon,
+                emergencyContent
+            );
 
             results.appendChild(emergency);
         }
 
+        // NO RESULTS
 
-        if (count === 0 && !document.getElementById("numbers").checked) {
+        if (count === 0 &&
+            !document.getElementById("numbers").checked) {
+
             results.innerHTML =
-                '<div class="empty">No selected services were found. Try another location or service.</div>';
+                '<div class="empty">' +
+                'No selected services were found.' +
+                '<br><br>Try another location or service.' +
+                '</div>';
         }
 
-        status.innerText = count + " emergency service locations found.";
+        status.innerText =
+            count + " emergency service locations found.";
 
-        // SHOW LOCATION ON MAP
-
-        setTimeout(function() {
-            map.invalidateSize();
-        }, 100);
+        map.invalidateSize();
 
     }
 
@@ -811,10 +941,14 @@ async function searchLocation() {
 }
 
 
-// SAFE TEXT DISPLAY
+// ======================================
+// 8. SAFE TEXT
+// ======================================
 
 function escapeHTML(value) {
+
     return String(value).replace(/[&<>"']/g, function(char) {
+
         return {
             "&": "&amp;",
             "<": "&lt;",
@@ -822,43 +956,53 @@ function escapeHTML(value) {
             '"': "&quot;",
             "'": "&#39;"
         }[char];
+
     });
+
 }
 
 
-// ABOUT
+// ======================================
+// 9. ABOUT AND HELP
+// ======================================
 
 function showAbout() {
+
     alert(
         "Emergency Location Information Tool\n\n" +
-        "This OSINT application collects publicly available " +
-        "emergency service information using OpenStreetMap."
+        "An OSINT project that collects publicly available " +
+        "emergency service information."
     );
+
 }
 
-
-// HELP
-
 function showHelp() {
+
     alert(
         "How to use the tool:\n\n" +
         "1. Enter a city or area.\n" +
-        "2. Select the emergency services.\n" +
+        "2. Select emergency services.\n" +
         "3. Click Search.\n" +
-        "4. View locations on the map.\n" +
+        "4. View the results and map.\n" +
         "5. Click a result to zoom into its location."
     );
+
 }
 
 
-// INITIAL SEARCH
+// ======================================
+// 10. INITIAL SEARCH
+// ======================================
 
 window.addEventListener("load", function() {
 
     setTimeout(function() {
+
         map.invalidateSize();
+
         searchLocation();
-    }, 500);
+
+    }, 800);
 
 });
 
@@ -866,4 +1010,5 @@ window.addEventListener("load", function() {
 
 </body>
 </html>
+
 
